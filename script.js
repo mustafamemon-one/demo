@@ -34,6 +34,7 @@ boxes.forEach((box) => {
         }
         box.disabled= "true";
         checkWinner();
+        checkDraw();
     })
 })
 
@@ -47,8 +48,7 @@ const checkWinner = () => {
             if(pos1Val === pos2Val && pos2Val === pos3Val) {
                 setTimeout(() => {
                     showWinner(pos1Val);
-                }, 500);
-                // showWinner(pos1Val);
+                }, 100);
             }
         }
     }
@@ -79,6 +79,26 @@ const enableBoxes= () => {
         box.disabled= false;
         box.innerText="";
     }
+}
+
+const checkDraw = () => {
+    let allFilled = true;
+    for (let box of boxes) {
+        if (box.innerText !== "X" && box.innerText !== "0") {
+            allFilled = false;
+            break;
+        }
+    }
+    if (allFilled && !checkWinner()) {
+        showDraw();
+    }
+};
+
+const showDraw= () => {
+    msg.innerText=`Draw`;
+    msgContainer.classList.remove("hide");
+    disableBoxes();
+    rstBtn.style.display="none";
 }
 
 rstBtn.addEventListener("click", resetGame);
